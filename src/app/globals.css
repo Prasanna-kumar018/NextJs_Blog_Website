@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css?family=Roboto%20Serif:700|ADLaM%20Display:400");
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -73,9 +73,7 @@
     background-color: var(--bg);
     color: var(--text);
   }
-  .robotoserif {
-    font-family: "Roboto Serif";
-  }
+   
   .textstroke {
     color: transparent;
     background: linear-gradient(to right, #867fe6 30% 10%, #ff00ae 50%);

@@ -8,7 +8,7 @@ export const Links = () => {
   const isAdmin = true;
   const user = false;
   return (
-    <div className="flex  gap-1 ">
+    <div className="flex  gap-1 max-md:hidden">
       <Link
         href={"/"}
         prefetch={false}

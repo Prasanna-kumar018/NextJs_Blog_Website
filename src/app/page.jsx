@@ -1,10 +1,21 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Roboto_Serif } from "@next/font/google";
+import { cn } from "@/lib/utils";
+
+const roboto_serif = Roboto_Serif({
+  subsets: ["latin"],
+});
 export default function Home() {
   return (
     <div className="flex mt-16 gap-16 ">
       <div className="flex-1 relative">
-        <h1 className="text-7xl font-semibold   robotoserif">
+        <h1
+          className={cn(
+            "text-7xl text-wrap font-semibold",
+            roboto_serif.className
+          )}
+        >
           Creative <span className="textstroke text-clip">Thoughts</span> Agency
         </h1>
         <p className="mt-10">
