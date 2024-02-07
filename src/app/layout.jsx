@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import { cn } from "@/lib/utils";
+import Provider from "@/components/Provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -12,14 +13,16 @@ export const metadata = {
   description: "Create your blog now | Next14.js",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, session }) {
   return (
     <html lang="en">
-      <body className={cn(" xl:mx-36 mx-20 ", inter.className)}>
-        <Navbar />
-        
-        {children}
-      </body>
+      <Provider>
+        <body className={cn(" xl:mx-36 mx-20 ", inter.className)}>
+          <Navbar />
+          {children}
+        </body>
+      </Provider>
+      
     </html>
   );
 }

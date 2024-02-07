@@ -6,7 +6,7 @@ const Card = ({ item }) => {
     <div className=" max-w-[300px] shadow-md mb-10 shadow-[#D59AD8]">
       <div className="w-full relative">
         <div className=" relative flex aspect-square flex-grow-1 w-11/12">
-          <Image src="/music.jpg" fill />
+          <Image src="/music.jpg" fill alt="No-image" />
         </div>
         <p
           className="absolute  right-0 -rotate-90  origin-bottom-right   

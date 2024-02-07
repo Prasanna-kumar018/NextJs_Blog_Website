@@ -6,19 +6,18 @@ import { cn } from "@/lib/utils";
 const roboto_serif = Roboto_Serif({
   subsets: ["latin"],
 });
+export const metadata = {
+  title: "Home Page | Next14js ",
+  description: "Home Description",
+};
 export default function Home() {
   return (
     <div className="flex mt-16 gap-16 ">
       <div className="flex-1 relative">
-        <h1
-          className={cn(
-            "text-7xl text-wrap font-semibold",
-            roboto_serif.className
-          )}
-        >
+        <h1 className={cn("text-7xl text-wrap font-semibold", "font-serif")}>
           Creative <span className="textstroke text-clip">Thoughts</span> Agency
         </h1>
-        <p className="mt-10">
+        <p className={cn("mt-10", roboto_serif.className)}>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
           alias aliquam, doloremque veritatis rem quos amet ipsum quisquam
         </p>
@@ -39,7 +38,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex-1 relative">
-        <Image src={"/hero.gif"} fill />
+        <Image src={"/hero.gif"} fill alt="No-image" />
       </div>
     </div>
   );

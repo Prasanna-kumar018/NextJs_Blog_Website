@@ -1,5 +1,9 @@
 import UserComponent from "@/components/UserComponent";
 import Image from "next/image";
+export const metadata = {
+  title: "Blog_Item Page",
+  description: "Blog_Item Description",
+};
 const Singlepage = () => {
   return (
     <div className="flex  aspect-video gap-10 h-[calc(100vmin-100px)] mt-2 w-full ">
