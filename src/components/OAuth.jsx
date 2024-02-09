@@ -1,20 +1,28 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { GithubSignIn } from "./Sign_in_controllers";
 import { LoaderIcon } from "lucide-react";
 
-async function GithubSignIn() {
-  await signIn("github");
-}
 const OAuth = ({ className }) => {
   const { data: session, status } = useSession();
+  console.log(session);
+  const [loading, setLoading] = React.useState(false);
+  let router = useRouter();
+  React.useEffect(() => {
+    if (session?.user) {
+      router.replace("/");
+    }
+  }, [session?.user]);
   return (
     <div className={cn("space-y-3", className)}>
-      <Button type="button" className="w-full bg-red-800  hover:bg-red-600 ">
-        CONTINUE WITH GOOGLE
-      </Button>
-      <form action={GithubSignIn}>
+      <form
+        action={() => {
+          GithubSignIn();
+        }}
+      >
         <Button
           type="submit"
           disabled={status === "loading"}
@@ -22,7 +30,7 @@ const OAuth = ({ className }) => {
         >
           {status === "loading" && <LoaderIcon className="animate-spin" />}
           CONTINUE WITH GITHUB
-        </Button >
+        </Button>
       </form>
     </div>
   );

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import { cn } from "@/lib/utils";
 import Provider from "@/components/Provider";
+import { ToastContainer } from "react-toastify";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -19,10 +20,10 @@ export default function RootLayout({ children, session }) {
       <Provider>
         <body className={cn(" xl:mx-36 mx-20 ", inter.className)}>
           <Navbar />
+          <ToastContainer />
           {children}
         </body>
       </Provider>
-      
     </html>
   );
 }

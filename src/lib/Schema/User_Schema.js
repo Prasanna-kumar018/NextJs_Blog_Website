@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Users = new mongoose.Schema(
   {
     username: {
@@ -52,6 +52,6 @@ const PostSchema = new mongoose.Schema({
     unique: true,
   },
 });
-
-export const Users_Model = mongoose.models.Users ||  mongoose.model("Users", Users);
-export const Post_Model = mongoose.models.Posts || mongoose.model("Posts", PostSchema);
+ const Users_Model = mongoose.models?.Users || mongoose.model("Users", Users);
+ const Post_Model =  mongoose.models?.Posts || mongoose.model("Posts", PostSchema);
+module.exports = { Users_Model, Post_Model };

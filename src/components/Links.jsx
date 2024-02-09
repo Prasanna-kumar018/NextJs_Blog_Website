@@ -2,11 +2,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
+import { useSession, signIn, signOut } from "next-auth/react";
 export const Links = () => {
   let pathname = usePathname();
   console.log(pathname);
+  const { data: session, status } = useSession();
+  console.log(session?.user);
   const isAdmin = true;
-  const user = false;
+  const user = session?.user ? true : false;
   return (
     <div className="flex  gap-1 max-md:hidden">
       <Link
@@ -68,6 +71,9 @@ export const Links = () => {
             Admin
           </Link>
           <Button
+            onClick={async () => {
+              await signOut();
+            }}
             className="hover:shadow-[0px_0px_50px_5px_867fe67a] flex-1 min-w-[100px]
             font-bold text-base hover:bg-transparent hover:text-red-700 self-center bg-transparent
           "

@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const connection = {};
 const ConnectDb = async () => {
+
   try {
     if (connection.isConnected) {
       console.log("Using Existing Connection");
@@ -11,9 +12,9 @@ const ConnectDb = async () => {
     if (connection.isConnected) {
       console.log("Connection Established");
     }
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  }
+  catch (err) {
+    console.log(err.message);
   }
 };
 

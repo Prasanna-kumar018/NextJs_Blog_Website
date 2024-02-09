@@ -2,7 +2,9 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 import Link from "next/link";
-// import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Form,
   FormControl,
@@ -15,13 +17,12 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { toast } from "sonner";
-import OAuth from "./OAuth";
+import { fetchthedata } from "./RequestMaker";
 const Forms = () => {
-  // let navigate = useNavigate();
   let [loading, setLoading] = React.useState(false);
   let [error, seterror] = React.useState(false);
   let [errormsg, seterrormsg] = React.useState(null);
+  let router = useRouter();
   let formSchema = z.object({
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
@@ -37,50 +38,19 @@ const Forms = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
-  function onSubmit(data) {
-    console.log(data);
-    // setLoading(true);
-    // seterror(false);
-    // fetch("/api/users/register", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     Username: data.username,
-    //     Password: data.password,
-    //     Email: data.email,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) =>
-    //   {
-    //     console.log(data);
-    //     if (data.title)
-    //     {
-    //       setLoading(false);
-    //       seterror(true);
-    //       seterrormsg(data.message);
-    //       return;
-    //     }
-    //     setLoading(false);
-    //     let date = new Date();
-    //     toast("You have Signed Up Successfully", {
-    //       description: `created @ ${date.toLocaleString()}`,
-    //       action: {
-    //         label: "Close",
-    //         onClick: ()=> {
-    //           toast.dismiss();
-    //         }
-    //       },
-    //     });
-    //     // navigate("/sign-in");
-    //   })
-    //   .catch((err) =>
-    //   {
-    //     setLoading(false);
-    //     seterror(true);
-    //   });
+  async function onSubmit(data) {
+    setLoading(true);
+    seterror(false);
+    data = await fetchthedata(data);
+    if (data.title) {
+      setLoading(false);
+      seterror(true);
+      seterrormsg(data.message);
+      return;
+    }
+    setLoading(false);
+    toast.success("You have Signed Up Successfully");
+    router.replace("/login");
   }
   return (
     <div className="md:w-1/3 h-full max-sm:mt-5 mt-3">
@@ -101,7 +71,7 @@ const Forms = () => {
                   <Input
                     placeholder="Username"
                     {...field}
-                    className="font-[600] focus-visible:ring-offset-0 text-lg py-6 focus-visible:ring-0"
+                    className="font-[600] text-black focus-visible:ring-offset-0 text-lg py-6 focus-visible:ring-0"
                   />
                 </FormControl>
                 <FormMessage />
@@ -116,7 +86,7 @@ const Forms = () => {
                 <FormControl>
                   <Input
                     placeholder="Email"
-                    className="font-[600] focus-visible:ring-offset-0 text-lg py-6 focus-visible:ring-0"
+                    className="font-[600] text-black focus-visible:ring-offset-0 text-lg py-6 focus-visible:ring-0"
                     {...field}
                   />
                 </FormControl>
@@ -132,7 +102,7 @@ const Forms = () => {
                 <FormControl>
                   <Input
                     placeholder="Password"
-                    className="font-[600] focus-visible:ring-offset-0 text-lg py-6 focus-visible:ring-0"
+                    className="font-[600] text-black focus-visible:ring-offset-0 text-lg py-6 focus-visible:ring-0"
                     {...field}
                   />
                 </FormControl>
@@ -149,7 +119,6 @@ const Forms = () => {
             {loading && <LoaderIcon className="animate-spin" />}
             <p>SIGN UP</p>
           </Button>
-          <OAuth/>
         </form>
         <div className="flex gap-2 mt-2">
           <p>Have an account?</p>
@@ -157,7 +126,9 @@ const Forms = () => {
             <span className="text-blue-700 cursor-pointer">Sign In</span>
           </Link>
         </div>
-        {error && <h1 className="text-red-700 font-bold mt-2">{errormsg}</h1>}
+        {error && (
+          <h1 className="text-red-700 text-lg font-bold mt-2">{errormsg}</h1>
+        )}
       </Form>
     </div>
   );

@@ -1,1 +1,1 @@
-export { GET, POST } from "@/components/auth";
+export { GET, POST } from "@/lib/auth";

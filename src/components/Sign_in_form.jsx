@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 import OAuth from "./OAuth";
-import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -15,11 +14,16 @@ import { LoaderIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import * as z from "zod";
+import { useRouter } from "next/navigation";
 const Sign_in_form = () => {
   let [loading, setLoading] = React.useState(false);
   let [error, seterror] = React.useState(false);
   let [errormsg, seterrormsg] = React.useState(null);
+  const router = useRouter();
   let formSchema = z.object({
     email: z.string().email({
       message: "Invalid email address.",
@@ -32,48 +36,25 @@ const Sign_in_form = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
-  function onSubmit(data) {
-    console.log(data);
-    // setLoading(true);
-    // seterror(false);
-    // fetch("/api/users/login", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     Password: data.password,
-    //     Email: data.email,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.title) {
-    //       setLoading(false);
-    //       seterror(true);
-    //       seterrormsg(data.message);
-    //       return;
-    //     }
-    //     setLoading(false);
-    //     let date = new Date();
-    //     toast("You have Signed In Successfully", {
-    //       description: `@ ${date.toLocaleString()}`,
-    //       action: {
-    //         label: "Close",
-    //         onClick: () => {
-    //           toast.dismiss();
-    //         },
-    //       },
-    //     });
-    // dispatch(user.actions.setuser(data));
-    // navigate("/");
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false);
-    //     seterror(true);
-    //     seterrormsg(err.message);
-    //     console.error("Fetch Error:", err);
-    //   });
+  async function onSubmit(data) {
+    try {
+      setLoading(true);
+      let res = await signIn("credentials", { ...data, redirect: false });
+      console.log(res);
+      if (res.error) {
+        setLoading(false);
+        seterror(true);
+        seterrormsg("Invalid Credentials");
+        return;
+      }
+      setLoading(false);
+      toast.success("You have Signed in successfully");
+      router.push("/");
+    } catch (err) {
+      setLoading(false);
+      seterror(true);
+      seterrormsg(err.message);
+    }
   }
   return (
     <div className="md:w-1/3 h-full mt-4">
